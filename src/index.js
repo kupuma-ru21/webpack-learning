@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { Nijou } from './utilities';
+import './style.css';
 
 function component() {
   const element = document.createElement('div');
   const array = ['Hello', 'Webpack', '!!'];
   element.innerHTML = _.join(array, ' ');
-  console.log(Nijou(2));
   return element;
 }
 
 document.body.appendChild(component());
+document.body.classList.add('haikei');
