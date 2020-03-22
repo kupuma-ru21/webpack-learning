@@ -75,4 +75,6 @@ module.exports = {
       new OptimizeCSSAssetsPlugin({}),
     ],
   },
+  // devtoolでトランスパイル前のソースコードが確認できる(かなり便利な気がする)
+  devtool: 'eval-source-map',
 };
