@@ -1,7 +1,8 @@
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /*
   .resolve() => 絶対パスを生成するメソッド
@@ -29,7 +30,7 @@ module.exports = {
       // sass/cssを対象
       {
         test: /\.(sc|c)ss$/, // .scssファイルを対象
-        use: [miniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       }, // sass
       // 画像ファイル関連
       {
@@ -53,24 +54,25 @@ module.exports = {
     contentBase: outputPath,
   },
   plugins: [
-    new htmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: './index.html', // 出力ファイル名を設定
     }),
-    new miniCssExtractPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
     }),
   ],
   // 最適化に関する設定
   optimization: {
     minimizer: [
-      new uglifyjsWebpackPlugin({
+      new UglifyjsWebpackPlugin({
         uglifyOptions: {
           compress: {
             drop_console: true, // console関連を本番環境で無視するよう設定
           },
         },
       }),
+      new OptimizeCSSAssetsPlugin({}),
     ],
   },
 };
