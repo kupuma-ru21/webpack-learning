@@ -20,6 +20,12 @@ module.exports = {
   // moduleことの設定
   module: {
     rules: [
+      {
+        enforce: 'pre', // enforceキーを指定してないloaderより先に処理される
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+      },
       // jsファイルを対象
       {
         test: /\.jsx?$/,
@@ -48,7 +54,7 @@ module.exports = {
       },
     ],
   },
-  //webpack-dev-server 実行時の設定 (ファイルの起動時や変更時の監視を行う)
+  // webpack-dev-server 実行時の設定 (ファイルの起動時や変更時の監視を行う)
   devServer: {
     // npx webpack-dev-server --open 実行時 絶対パス(outputPath)で dist配下のindex.htmlを起動するよう設定
     contentBase: outputPath,
