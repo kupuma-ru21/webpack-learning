@@ -1,5 +1,6 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
 
 /*
   .resolve() => 絶対パスを生成するメソッド
@@ -24,19 +25,10 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
-      // cssファイルを対象
+      // sass/cssを対象
       {
-        test: /\.css$/,
-        /*
-        'css-loader', 'style-loader'を使用
-        use配列内のloaderは逆順に実行される(重要))
-        */
-        use: ['style-loader', 'css-loader'],
-      },
-      // sassを対象
-      {
-        test: /\.scss$/, // .scssファイルを対象
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.(sc|c)ss$/, // .scssファイルを対象
+        use: [miniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       }, // sass
       // 画像ファイル関連
       {
@@ -63,6 +55,9 @@ module.exports = {
     new htmlWebpackPlugin({
       template: './src/index.html',
       filename: './index.html', // 出力ファイル名を設定
+    }),
+    new miniCssExtractPlugin({
+      filename: '[name].[hash].css',
     }),
   ],
 };
