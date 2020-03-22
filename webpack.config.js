@@ -1,6 +1,7 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 /*
   .resolve() => 絶対パスを生成するメソッド
@@ -60,4 +61,16 @@ module.exports = {
       filename: '[name].[hash].css',
     }),
   ],
+  // 最適化に関する設定
+  optimization: {
+    minimizer: [
+      new uglifyjsWebpackPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true, // console関連を本番環境で無視するよう設定
+          },
+        },
+      }),
+    ],
+  },
 };
