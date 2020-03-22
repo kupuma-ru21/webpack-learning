@@ -17,12 +17,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/, // .cssファイルに対して
+        test: /\.css$/, // .cssファイルを対象
         /*
         'css-loader', 'style-loader'を使用
         use配列内のloaderは逆順に実行される(重要))
         */
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg|ico)$/i, // iは大文字も許容
+        loader: 'url-loader',
+        options: {
+          // 2KB以上のファイルのsrc属性名を nameで設定した名称(path)に書き換える
+          limit: 2048,
+          name: './images/[name].[ext]',
+        },
       },
     ],
   },
