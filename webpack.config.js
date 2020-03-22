@@ -1,4 +1,5 @@
 const path = require('path');
+const htmlWebpackPlugin = require('html-webpack-plugin');
 
 /*
   .resolve() => 絶対パスを生成するメソッド
@@ -16,6 +17,13 @@ module.exports = {
   // moduleことの設定
   module: {
     rules: [
+      // jsファイルを対象
+      {
+        test: /\.jsx?$/,
+        // node_modulesはトランスパイルの対象に含めない
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
       // cssファイルを対象
       {
         test: /\.css$/,
@@ -29,7 +37,8 @@ module.exports = {
       {
         test: /\.scss$/, // .scssファイルを対象
         use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
+      }, // sass
+      // 画像ファイル関連
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i, // iは大文字も許容
         loader: 'url-loader',
@@ -38,6 +47,10 @@ module.exports = {
           limit: 2048,
           name: './images/[name].[ext]',
         },
+      }, // 画像ファイル関連
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
       },
     ],
   },
@@ -46,4 +59,10 @@ module.exports = {
     // npx webpack-dev-server --open 実行時 絶対パス(outputPath)で dist配下のindex.htmlを起動するよう設定
     contentBase: outputPath,
   },
+  plugins: [
+    new htmlWebpackPlugin({
+      template: './src/index.html',
+      filename: './index.html', // 出力ファイル名を設定
+    }),
+  ],
 };
