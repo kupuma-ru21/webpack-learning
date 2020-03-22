@@ -16,13 +16,19 @@ module.exports = {
   // moduleことの設定
   module: {
     rules: [
+      // cssファイルを対象
       {
-        test: /\.css$/, // .cssファイルを対象
+        test: /\.css$/,
         /*
         'css-loader', 'style-loader'を使用
         use配列内のloaderは逆順に実行される(重要))
         */
         use: ['style-loader', 'css-loader'],
+      },
+      // sassを対象
+      {
+        test: /\.scss$/, // .scssファイルを対象
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i, // iは大文字も許容
